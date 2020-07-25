@@ -23,6 +23,9 @@
 - PostgreSQL Driver
 - Java Mail Sender
 
+## ETC
+- 학습 순서 및 내용은 [이슈](https://github.com/ber01/Study-Web-App/issues)에 자세하게 기록되어있습니다.
+
 ## Reference
 - 모든 소스코드의 저작권은 [백기선](https://www.youtube.com/channel/UCwjaZf1WggZdbczi36bWlBA)님에게 있습니다.
 - [스프링과 JPA 기반 웹 애플리케이션 개발](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-JPA-%EC%9B%B9%EC%95%B1)

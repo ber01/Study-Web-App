@@ -16,6 +16,7 @@
 - Lombok
 - Spring Configuration Processor
 - Spring Web
+- Spring-boot-starter-validation
 - Thymeleaf
 - Spring Security
 - Spring Data JPA

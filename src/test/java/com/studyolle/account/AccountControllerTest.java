@@ -1,5 +1,6 @@
 package com.studyolle.account;
 
+import com.studyolle.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +62,22 @@ public class AccountControllerTest {
     @Test
     public void singUpSubmitWithCorrectInput() throws Exception {
         String email = "ksyj8256@gmail.com";
+        String password = "12345678";
 
         mockMvc.perform(post("/sign-up")
                 .param("nickname", "kyunghwan")
                 .param("email", email)
-                .param("password", "12345678")
+                .param("password", password)
                 .with(csrf()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
         ;
 
-        assertThat(accountRepository.existsByEmail(email)).isTrue();
+        Account account = accountRepository.findByEmail(email);
+        assertThat(account).isNotNull();
+        assertThat(account.getPassword()).isNotEqualTo(password);
+
         then(javaMailSender).should().send(any(SimpleMailMessage.class));
     }
 

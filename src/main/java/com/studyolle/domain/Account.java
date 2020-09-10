@@ -56,4 +56,9 @@ public class Account {
         this.emailCheckToken = UUID.randomUUID().toString();
     }
 
+    public void completeSingUp() {
+        this.setEmailVerified(true);
+        this.setJoinedAt(LocalDateTime.now());
+    }
+
 }

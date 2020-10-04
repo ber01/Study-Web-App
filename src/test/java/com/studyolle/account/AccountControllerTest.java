@@ -16,6 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,6 +46,7 @@ public class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("error"))
                 .andExpect(view().name("account/checked-email"))
+                .andExpect(unauthenticated())
         ;
     }
 
@@ -70,6 +73,7 @@ public class AccountControllerTest {
                 .andExpect(model().attributeExists("nickname"))
                 .andExpect(model().attributeExists("numberOfUser"))
                 .andExpect(view().name("account/checked-email"))
+                .andExpect(authenticated().withUsername(nickname))
         ;
     }
 
@@ -81,6 +85,7 @@ public class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("account/sign-up"))
                 .andExpect(model().attributeExists("signUpForm"))
+                .andExpect(unauthenticated())
         ;
     }
 
@@ -95,6 +100,7 @@ public class AccountControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("account/sign-up"))
+                .andExpect(unauthenticated())
         ;
     }
 
@@ -104,14 +110,16 @@ public class AccountControllerTest {
         String email = "ksyj8256@gmail.com";
         String password = "12345678";
 
+        String username = "kyunghwan";
         mockMvc.perform(post("/sign-up")
-                .param("nickname", "kyunghwan")
-                .param("email", email)
-                .param("password", password)
-                .with(csrf()))
+                    .param("nickname", username)
+                    .param("email", email)
+                    .param("password", password)
+                    .with(csrf()))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"))
+                .andExpect(authenticated().withUsername(username))
         ;
 
         Account account = accountRepository.findByEmail(email);
